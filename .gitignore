@@ -1,0 +1,12 @@
+/.idea
+/.vscode
+/build
+/coverage
+/docs
+/node_modules
+/vendor
+.php-cs-fixer.cache
+.phpunit.result.cache
+composer.lock
+phpstan.neon
+testbench.yaml

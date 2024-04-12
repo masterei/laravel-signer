@@ -1,0 +1,67 @@
+{
+    "name": "masterei/laravel-signer",
+    "description": "Simple Laravel signed URL wrapper with additional feature such as consumable and user-based signed URLs.",
+    "keywords": [
+        "masterei",
+        "laravel-signer",
+        "consumable url",
+        "user-based url"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rey Arnejo Jr.",
+            "email": "mastereijunior@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "spatie/url": "^2.4"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Masterei\\Signer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Masterei\\Signer\\Tests\\": "tests/",
+            "Masterei\\Signer\\Tests\\Database\\Factories\\": "tests/database/factories/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Masterei\\Signer\\SignerServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "lint": [
+            "@php vendor/bin/phpstan analyse"
+        ],
+        "test": [
+            "@php vendor/bin/phpunit"
+        ]
+    }
+}
