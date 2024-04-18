@@ -21,7 +21,7 @@ class ValidateSignerSignature
         $isStrict = in_array('strict', $args);
 
         // validate using native signed url method
-        if($request->hasValidSignature($isAbsolute) && !$isStrict){
+        if($request->hasValidSignatureWhileIgnoring(Config::get('ignore_queries'), $isAbsolute) && !$isStrict){
             return $next($request);
         }
 

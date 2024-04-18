@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Signed extends Model
 {
-    protected $table = 'signed_urls';
-
     protected $fillable = [
         'path',
         'signature',
@@ -23,7 +21,9 @@ class Signed extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = Config::get('table_name');
+        $this->connection = Config::connection();
+
+        $this->table = Config::tableName();
     }
 
     protected function parameters(): Attribute
@@ -45,7 +45,7 @@ class Signed extends Model
     }
 
     /**
-     * Reconstruct model data into signed route url.
+     * Reconstruct model data into signed URL.
      * E.g: Signed::find(1)->url();
      */
     public function scopeUrl($query)

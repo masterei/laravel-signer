@@ -19,4 +19,9 @@ class Config
             ? self::get('database_connection')
             : config('database.default');
     }
+
+    public static function tableName(): string
+    {
+        return self::get('table_name');
+    }
 }

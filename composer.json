@@ -1,11 +1,11 @@
 {
     "name": "masterei/laravel-signer",
-    "description": "Simple Laravel signed URL wrapper with additional feature such as consumable and user-based signed URLs.",
+    "description": "Laravel signed URL wrapper with additional feature such as consumable and user-based signed URLs.",
     "keywords": [
         "masterei",
         "laravel-signer",
-        "consumable url",
-        "user-based url"
+        "consumable signed url",
+        "user-based signed url"
     ],
     "license": "MIT",
     "authors": [
@@ -29,8 +29,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Masterei\\Signer\\Tests\\": "tests/",
-            "Masterei\\Signer\\Tests\\Database\\Factories\\": "tests/database/factories/"
+            "Masterei\\Signer\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -43,25 +42,5 @@
     "config": {
         "sort-packages": true
     },
-    "minimum-stability": "stable",
-    "scripts": {
-        "post-autoload-dump": [
-            "@clear",
-            "@prepare"
-        ],
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
-        "prepare": "@php vendor/bin/testbench package:discover --ansi",
-        "build": "@php vendor/bin/testbench workbench:build --ansi",
-        "serve": [
-            "Composer\\Config::disableProcessTimeout",
-            "@build",
-            "@php vendor/bin/testbench serve"
-        ],
-        "lint": [
-            "@php vendor/bin/phpstan analyse"
-        ],
-        "test": [
-            "@php vendor/bin/phpunit"
-        ]
-    }
+    "minimum-stability": "stable"
 }

@@ -18,7 +18,7 @@ class SignerServiceProvider extends ServiceProvider
     {
         $this->publishes([$this->configPath() => config_path('signer.php')], 'signer-config');
 
-        $this->loadMigrationsFrom(__DIR__.'/../database');
+        $this->publishMigration();
 
         $this->loadMiddleware();
 
@@ -62,5 +62,16 @@ class SignerServiceProvider extends ServiceProvider
     private function loadAboutCommand(): void
     {
         AboutCommand::add('Laravel Signer', fn () => ['Version' => Config::PACKAGE_VERSION]);
+    }
+
+    private function publishMigration()
+    {
+        $filename = 'create_signed_urls_table';
+        $timeInSeconds = substr(str_pad(now()->secondsSinceMidnight(), '6', '0', STR_PAD_LEFT), '0', '6');
+        $migrationFile = now()->format('Y_m_d_') . $timeInSeconds . "_$filename.php";
+
+        $this->publishes([
+            __DIR__ . "/../database/$filename.php" => database_path("migrations/$migrationFile")
+        ], 'signer-migration');
     }
 }
