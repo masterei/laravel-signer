@@ -18,7 +18,7 @@ class SignerServiceProvider extends ServiceProvider
     {
         $this->publishes([$this->configPath() => config_path('signer.php')], 'signer-config');
 
-        $this->publishMigration();
+        $this->publishesMigration();
 
         $this->loadMiddleware();
 
@@ -42,11 +42,9 @@ class SignerServiceProvider extends ServiceProvider
 
     private function loadConsoleCommands(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                CleanUpRecordCommand::class,
-            ]);
-        }
+        $this->commands([
+            CleanUpRecordCommand::class,
+        ]);
     }
 
     private function loadScheduledDatabaseCleanUp(): void
@@ -64,7 +62,7 @@ class SignerServiceProvider extends ServiceProvider
         AboutCommand::add('Laravel Signer', fn () => ['Version' => Config::PACKAGE_VERSION]);
     }
 
-    private function publishMigration()
+    private function publishesMigration()
     {
         $filename = 'create_signed_urls_table';
         $timeInSeconds = substr(str_pad(now()->secondsSinceMidnight(), '6', '0', STR_PAD_LEFT), '0', '6');

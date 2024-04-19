@@ -26,6 +26,9 @@ Optionally, you can publish the config file with:
 php artisan vendor:publish --tag="signer-config"
 ```
 
+## Compatibility
+- Laravel version 9.x.x or later
+
 ## Usage
 
 ### Basic Usage

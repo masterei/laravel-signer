@@ -53,7 +53,7 @@ class ValidateSignerSignature
             return true;
         }
 
-        // require to be authenticated
+        // require authenticated request
         if(!Auth::check()){
             abort(401, 'Unauthenticated.');
         }

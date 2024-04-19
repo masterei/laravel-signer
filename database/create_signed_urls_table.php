@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create(Config::get('table_name'), function (Blueprint $table) {
             $table->id();
             $table->string('path')->index();
-            $table->text('signature')->unique();
+            $table->string('signature')->unique();
             $table->integer('expired_at')->nullable();
             $table->json('parameters');
             $table->timestamps();

@@ -14,9 +14,12 @@ class CleanUpRecordCommand extends Command
 
     public function handle()
     {
-        $expiration = Carbon::now()->subDays($this->argument('olderThanDays'));
-        Signed::where('expired_at', '<=', $expiration->timestamp)->delete();
+        $recordOlderThan = Carbon::now()->subDays($this->argument('olderThanDays'));
 
-        $this->info('Signed URLs database records clean-up has been successful executed!');
+        Signed::where('expired_at', '<', Carbon::now()->timestamp)
+            ->orWhere('created_at', '<', $recordOlderThan)
+            ->delete();
+
+        $this->info('Signed URLs database record clean-up has been successful executed!');
     }
 }

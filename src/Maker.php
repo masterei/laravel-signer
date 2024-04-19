@@ -10,11 +10,11 @@ use Illuminate\Support\Str;
 
 class Maker
 {
+    protected string $routeName = '';
+
     protected int $accessLimit = 0;
 
     protected array $users = [];
-
-    protected string $routeName = '';
 
     protected array $parameters = [];
 
@@ -27,6 +27,12 @@ class Maker
     protected bool $withConsumable = false;
 
     protected bool $withAuthenticate = false;
+
+    public function route(string $name): self
+    {
+        $this->routeName = $name;
+        return $this;
+    }
 
     public function consumable(int $limit): self
     {
@@ -44,19 +50,12 @@ class Maker
             $this->users[] = $users->id;
         } elseif ($users instanceof Collection){
             $this->users = $users->pluck('id')->toArray();
-        }
-        elseif (is_array($users)){
+        } elseif (is_array($users)){
             $this->users = $users;
         } else {
             $this->users[] = $users;
         }
 
-        return $this;
-    }
-
-    public function route(string $name): self
-    {
-        $this->routeName = $name;
         return $this;
     }
 
@@ -84,7 +83,7 @@ class Maker
         return $this;
     }
 
-    protected function getAccessLimitData(): array
+    protected function setAccessLimitData(): array
     {
         if(!$this->accessLimit){
             return [];
@@ -98,9 +97,9 @@ class Maker
         ];
     }
 
-    protected function getUsersData(): array
+    protected function setUsersData(): array
     {
-        if(empty($this->users)) {
+        if(empty($this->users) && !$this->withAuthenticate) {
             return [];
         }
 
@@ -122,10 +121,10 @@ class Maker
 
     protected function signedRoute(string $routeName, array $parameters, Carbon | null $expiration, bool $absolute, bool $prefixDomain): string
     {
-        $data = array_merge($this->getAccessLimitData(), $this->getUsersData());
+        $data = array_merge($this->setAccessLimitData(), $this->setUsersData());
         $url = URLParser::createSignedRoute($routeName, array_merge($parameters, $this->signatureParameter()), $expiration, absolute: $absolute);
 
-        // only store to database if any of the feature is being used
+        // it only store data into database if any of the feature is being used
         if($this->withConsumable || $this->withAuthenticate){
             Signed::create([
                 'path' => $url->getPath(),
