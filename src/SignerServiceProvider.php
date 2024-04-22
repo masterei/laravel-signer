@@ -69,7 +69,7 @@ class SignerServiceProvider extends ServiceProvider
         $migrationFile = now()->format('Y_m_d_') . $timeInSeconds . "_$filename.php";
 
         $this->publishes([
-            __DIR__ . "/../database/$filename.php" => database_path("migrations/$migrationFile")
+            __DIR__ . "/../database/migrations/$filename.php" => database_path("migrations/$migrationFile")
         ], 'signer-migration');
     }
 }

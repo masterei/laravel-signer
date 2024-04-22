@@ -72,7 +72,7 @@ class ValidateSignerSignature
             return true;
         }
 
-        // limit counter
+        // access limit counter
         $signedRoute->parameters->data->consumable->remaining_access--;
 
         // update or delete based on counter status
