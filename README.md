@@ -72,9 +72,9 @@ return Signer::route('subscribe')   // route name
     ->parameters(['user' => 1])     // additional parameters
     ->authenticated([1, 2])         // user id as int or array, model, collection
     ->consumable(2)                 // number of times url can be accessed
-    ->absolute(false)               // include domain on signature hashing; default: true
-    ->prefixDomain(true)            // force url domain prefix on non absolute path; default: false
-    ->expiration(now()->addDays(2)) // urls expiration period; accepts: Carbon/Carbon instance
+    ->relative()                    // exclude domain from signature hashing
+    ->prefixDomain()                // force domain prefix on relative url
+    ->expiration(now()->addDays(2)) // url expiration period; accepts: Carbon/Carbon instance
     ->make();                       // finally create the url
 ```
 
@@ -113,12 +113,42 @@ Route::post('subscribe/{user}', function (Request $request) {
 
 #### Native Signed Route
 If your route uses the native signed url method namely `signedRoute` and `temporarySignedRoute`; 
-and exclude the domain from the signed URL hash you should provide the `relative` argument to the
+and excluded the domain from the signed URL hash you should provide the `relative` argument to the
 middleware for it to work.
 ```php
 Route::post('subscribe/{user}', function (Request $request) {
     // ...
 })->name('subscribe')->middleware('signer:relative');
+```
+
+## Classes
+#### Way to reconstruct signed route model back into signed URL:
+```php
+use Masterei\Signer\Models\Signed;
+
+return Signed::first()->url();
+```
+
+#### To parse URL and get its underlying data:
+```php
+use Masterei\Signer\URLParser;
+
+$parsedUrl = URLParser::fromString(request()->getUri());
+return $parsedUrl->getSignature();
+```
+
+#### Finding signed URL model using its signature:
+```php
+use Masterei\Signer\Models\Signed;
+use Masterei\Signer\URLParser;
+
+$parsedUrl = URLParser::fromString(request()->getUri());
+return Signed::findValidSignature($parsedUrl->getSignature());
+```
+
+```php
+// or specify with path
+return Signed::findValidSignature($parsedUrl->getSignature(), $parsedUrl->getPath());
 ```
 
 ## Changelog
