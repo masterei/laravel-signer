@@ -4,10 +4,8 @@ namespace Masterei\Signer\Tests\Feature;
 
 use Illuminate\Database\Eloquent\Collection;
 use Masterei\Signer\Signer;
-use Masterei\Signer\Tests\Database\Factories\TestUserFactory;
 use Masterei\Signer\Tests\Models\TestUser as User;
 use Masterei\Signer\Tests\TestCase;
-use Orchestra\Testbench\Factories\UserFactory;
 
 class AuthenticatedUrlTest extends TestCase
 {

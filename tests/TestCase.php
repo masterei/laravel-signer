@@ -4,10 +4,8 @@ namespace Masterei\Signer\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Masterei\Signer\SignerServiceProvider;
-use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
-//#[WithMigration]
 abstract class TestCase extends BaseTestCase
 {
     use RefreshDatabase;
@@ -15,7 +13,6 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->withFactories(__DIR__ . '/database/factories');
     }
 
